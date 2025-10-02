@@ -1,0 +1,16 @@
+name: Emergency Approval
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Number of the Pull Request'
+        required: true
+
+jobs:
+  emergency-approval:
+    name: Emergency Approval
+    uses: p2p-org/security-workflows/.github/workflows/emergency-approval.yaml@main
+    with:
+      pr_number: ${{ github.event.inputs.pr_number }}
+    secrets: inherit
