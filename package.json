@@ -52,7 +52,7 @@
     "@aptos-labs/ts-sdk": "^1.31.0",
     "@ethersproject/bytes": "^5.7.0",
     "@mysten/sui": "^1.14.0",
-    "@sonarwatch/portfolio-core": "^0.16.72",
+    "@sonarwatch/portfolio-core": "^0.16.76",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "axios": "^1.12.2",
