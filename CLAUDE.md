@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## General Guidelines
+
+**Language**: Always write code in English (including comments, variables, logs, and error messages), even when we communicate in other languages.
+
+**Environment Variables**: You may read `.env.example` for reference, but you must NOT read `.env` as it contains sensitive credentials.
+
 ## Common Commands
 
 ### Development
