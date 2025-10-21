@@ -23,7 +23,7 @@ export async function defaultTransformToken(token: Token): Promise<Token> {
   if (symbol === '') symbol = name;
 
   symbol = symbol
-    .replace(/[^\x20-\x7F]/g, '')
+    .replace(/[^\x20-\x7F\u00B2\u00B3\u00B9]/g, '')
     .trim()
     .replaceAll(' ', '')
     .substring(0, 20);
