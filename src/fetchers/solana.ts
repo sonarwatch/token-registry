@@ -6,8 +6,8 @@ import Fetcher from '../Fetcher';
 import { RawToken } from '../types';
 import { constTokensMap } from '../tokens/constTokens';
 import { getKey } from '../helpers/getKey';
-import { fetchJupToken } from '../helpers/fetchJupToken';
-import { getDasToken } from '../helpers/getDasToken';
+import { fetchTokenJup } from '../helpers/fetchTokenJup';
+import { fetchTokenDas } from '../helpers/fetchTokenDas';
 
 export default class SolanaFetcher extends Fetcher {
   public readonly id: string = 'solana';
@@ -30,7 +30,7 @@ export default class SolanaFetcher extends Fetcher {
     if (cToken) return cToken;
 
     // Check Jupiter Datapi
-    const jupToken = await fetchJupToken(
+    const jupToken = await fetchTokenJup(
       address,
       this.dasUrl,
       this.datapiHeaders
@@ -38,6 +38,6 @@ export default class SolanaFetcher extends Fetcher {
     if (jupToken) return jupToken;
 
     // Check DAS
-    return getDasToken(this.dasUrl, address);
+    return fetchTokenDas(this.dasUrl, address);
   }
 }

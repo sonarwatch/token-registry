@@ -1,6 +1,6 @@
 import { NetworkId } from '@sonarwatch/portfolio-core';
 import { RawToken } from '../types';
-import { getDasAsset } from './getDasAsset';
+import { fetchDasAsset } from './fetchDasAsset';
 import { isImageUrl } from './isImageUrl';
 
 /**
@@ -9,11 +9,11 @@ import { isImageUrl } from './isImageUrl';
  * @param address - The token address to fetch
  * @returns A RawToken object or null if the token cannot be fetched
  */
-export async function getDasToken(
+export async function fetchTokenDas(
   dasUrl: string,
   address: string
 ): Promise<RawToken | null> {
-  const dasAsset = await getDasAsset(dasUrl, address);
+  const dasAsset = await fetchDasAsset(dasUrl, address);
 
   if (dasAsset.error) return null;
   if (!dasAsset.result) return null;

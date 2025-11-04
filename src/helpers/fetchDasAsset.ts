@@ -28,7 +28,7 @@ export type DasGetAsset = {
  * @param address - The token address to fetch
  * @returns The DAS asset response data
  */
-export async function getDasAsset(
+export async function fetchDasAsset(
   dasUrl: string,
   address: string
 ): Promise<DasGetAsset> {

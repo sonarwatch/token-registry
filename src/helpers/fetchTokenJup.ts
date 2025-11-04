@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { NetworkId } from '@sonarwatch/portfolio-core';
 import { RawToken } from '../types';
-import { DasGetAsset, getDasAsset } from './getDasAsset';
+import { DasGetAsset, fetchDasAsset } from './fetchDasAsset';
 import { isImageUrl } from './isImageUrl';
 
 type JupToken = {
@@ -16,7 +16,7 @@ type JupToken = {
 
 export const datapiUrl = 'https://datapi.jup.ag';
 
-export async function fetchJupToken(
+export async function fetchTokenJup(
   mint: string,
   dasUrl: string,
   datapiHeaders?: {
@@ -43,7 +43,7 @@ export async function fetchJupToken(
   // Fetching data from DAS if missing (symbol, logoURI)
   let dasAsset: DasGetAsset | undefined;
   if (symbol === '') {
-    dasAsset = await getDasAsset(dasUrl, mint);
+    dasAsset = await fetchDasAsset(dasUrl, mint);
     if (dasAsset.result?.content.metadata?.symbol) {
       symbol = dasAsset.result.content.metadata.symbol;
     } else if (dasAsset.result?.token_info?.symbol) {
@@ -51,7 +51,7 @@ export async function fetchJupToken(
     }
   }
   if (logoURI === undefined) {
-    if (!dasAsset) dasAsset = await getDasAsset(dasUrl, mint);
+    if (!dasAsset) dasAsset = await fetchDasAsset(dasUrl, mint);
     logoURI = dasAsset.result?.content.links?.image;
     if (!logoURI) {
       const isJsonUriAnImg = await isImageUrl(
