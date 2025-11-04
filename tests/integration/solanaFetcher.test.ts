@@ -107,6 +107,15 @@ describe('SolanaFetcher', () => {
     expect(tokenInfo?.chainId).toBe(101);
   });
 
+  it('should return pbSPYx token', async () => {
+    const address = 'E65CoK961Rs5LzKhGZxbKsB7xpFhYhXogH8nhr8zamTK';
+    const tokenInfo = await fetcher.fetch(address);
+    expect(tokenInfo).not.toBeNull();
+    expect(tokenInfo?.logoURI).not.toBeUndefined();
+    expect(tokenInfo?.symbol).toBe('pbSPYx');
+    expect(tokenInfo?.chainId).toBe(101);
+  });
+
   it('should preserve superscript characters in symbol (FRAG²)', async () => {
     const address = 'FRAG2gPNXozPpYcn2a8zK7YdtfNXCLsioZNwZXwTQ3cP';
     const tokenInfo = await fetcher.fetch(address);

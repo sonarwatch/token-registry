@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { NetworkId } from '@sonarwatch/portfolio-core';
 import { RawToken } from '../types';
-import { getDasAsset } from './getDasAsset';
+import { DasGetAsset, getDasAsset } from './getDasAsset';
+import { isImageUrl } from './isImageUrl';
 
 type JupToken = {
   id: string;
@@ -17,10 +18,10 @@ export const datapiUrl = 'https://datapi.jup.ag';
 
 export async function fetchJupToken(
   mint: string,
+  dasUrl: string,
   headers?: {
     [key: string]: string;
-  },
-  dasUrl?: string
+  }
 ): Promise<RawToken | null> {
   const res: AxiosResponse<JupToken[]> | null = await axios
     .get(`${datapiUrl}/v1/assets/search`, {
@@ -36,15 +37,27 @@ export async function fetchJupToken(
   if (!Array.isArray(res.data) || res.data.length !== 1) return null;
 
   const jupToken = res.data[0];
-
-  // If symbol is empty and dasUrl is provided, try to get symbol from DAS
   let { symbol } = jupToken;
-  if (symbol === '' && dasUrl) {
-    const dasAsset = await getDasAsset(dasUrl, mint);
+  let logoURI: string | undefined = jupToken.icon;
+
+  // Fetching data from DAS if missing (symbol, logoURI)
+  let dasAsset: DasGetAsset | undefined;
+  if (symbol === '') {
+    dasAsset = await getDasAsset(dasUrl, mint);
     if (dasAsset.result?.content.metadata?.symbol) {
       symbol = dasAsset.result.content.metadata.symbol;
     } else if (dasAsset.result?.token_info?.symbol) {
       symbol = dasAsset.result.token_info.symbol;
+    }
+  }
+  if (logoURI === undefined) {
+    if (!dasAsset) dasAsset = await getDasAsset(dasUrl, mint);
+    logoURI = dasAsset.result?.content.links?.image;
+    if (!logoURI) {
+      const isJsonUriAnImg = await isImageUrl(
+        dasAsset.result?.content.json_uri
+      );
+      if (isJsonUriAnImg) logoURI = dasAsset.result?.content.json_uri;
     }
   }
 
@@ -54,7 +67,7 @@ export async function fetchJupToken(
     decimals: jupToken.decimals,
     name: jupToken.name,
     symbol,
-    logoURI: jupToken.icon ? jupToken.icon : undefined,
+    logoURI,
     networkId: NetworkId.solana,
     tags: jupToken.tags,
   };

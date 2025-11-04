@@ -32,8 +32,8 @@ export default class SolanaFetcher extends Fetcher {
     // Check Jupiter Datapi
     const jupToken = await fetchJupToken(
       address,
-      this.datapiHeaders,
-      this.dasUrl
+      this.dasUrl,
+      this.datapiHeaders
     );
     if (jupToken) return jupToken;
 
