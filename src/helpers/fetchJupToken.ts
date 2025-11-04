@@ -19,7 +19,7 @@ export const datapiUrl = 'https://datapi.jup.ag';
 export async function fetchJupToken(
   mint: string,
   dasUrl: string,
-  headers?: {
+  datapiHeaders?: {
     [key: string]: string;
   }
 ): Promise<RawToken | null> {
@@ -29,7 +29,7 @@ export async function fetchJupToken(
         query: mint,
       },
       timeout: 10000,
-      headers,
+      headers: datapiHeaders,
     })
     .catch(() => null);
 
