@@ -77,4 +77,19 @@ describe('defaultTransformToken', () => {
     const transformed = await defaultTransformToken(token);
     expect(transformed.symbol).toBe('TEST');
   });
+
+  it('should preserve CJK characters in symbol', async () => {
+    const token: Token = {
+      address: 'CY1P83KnKwFYostvjQcoR2HJLyEJWRBRaVQmYyyD3cR8',
+      chainId: 101,
+      decimals: 6,
+      name: '@easytopredict',
+      symbol: '索拉拉',
+      networkId: 'solana',
+      sourceId: 'fetcher-solana',
+    };
+
+    const transformed = await defaultTransformToken(token);
+    expect(transformed.symbol).toBe('索拉拉');
+  });
 });

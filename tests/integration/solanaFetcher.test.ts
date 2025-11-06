@@ -116,11 +116,19 @@ describe('SolanaFetcher', () => {
     expect(tokenInfo?.chainId).toBe(101);
   });
 
-  it('should preserve superscript characters in symbol (FRAG²)', async () => {
+  it('should support superscript characters in symbol', async () => {
     const address = 'FRAG2gPNXozPpYcn2a8zK7YdtfNXCLsioZNwZXwTQ3cP';
     const tokenInfo = await fetcher.fetch(address);
     expect(tokenInfo).not.toBeNull();
     expect(tokenInfo?.symbol).toBe('FRAG²');
+    expect(tokenInfo?.chainId).toBe(101);
+  });
+
+  it('should support CJK characters in symbol', async () => {
+    const address = 'CY1P83KnKwFYostvjQcoR2HJLyEJWRBRaVQmYyyD3cR8';
+    const tokenInfo = await fetcher.fetch(address);
+    expect(tokenInfo).not.toBeNull();
+    expect(tokenInfo?.symbol).toBe('索拉拉');
     expect(tokenInfo?.chainId).toBe(101);
   });
 });
