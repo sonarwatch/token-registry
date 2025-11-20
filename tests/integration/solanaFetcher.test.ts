@@ -131,4 +131,32 @@ describe('SolanaFetcher', () => {
     expect(tokenInfo?.symbol).toBe('索拉拉');
     expect(tokenInfo?.chainId).toBe(101);
   });
+
+  it('should support new sFLP symbols', async () => {
+    const addresses = [
+      '9Fzv4s5t2bNwwJoeeywMwypop3JegsuDb1eDbMnPr4TX',
+      'CrdMPbjooMmz6RoVgUnczWoeZka2QF14pikcCTpzRMxz',
+      '6afu2XRPMg8JAhzBsJ9DXsQRCFhkzbC4UaFMZepm6AHb',
+    ];
+    for (const [index, address] of addresses.entries()) {
+      const tokenInfo = await fetcher.fetch(address);
+      expect(tokenInfo).not.toBeNull();
+      expect(tokenInfo?.symbol).toBe(`sFLP.${index + 1}`);
+      expect(tokenInfo?.chainId).toBe(101);
+    }
+  });
+
+  it('should support new FLP symbols', async () => {
+    const addresses = [
+      'NUZ3FDWTtN5SP72BsefbsqpnbAY5oe21LE8bCSkqsEK',
+      'AbVzeRUss8QJYzv2WDizDJ2RtsD1jkVyRjNdAzX94JhG',
+      '4PZTRNrHnxWBqLRvX5nuE6m1cNR8RqB4kWvVYjDkMd2H',
+    ];
+    for (const [index, address] of addresses.entries()) {
+      const tokenInfo = await fetcher.fetch(address);
+      expect(tokenInfo).not.toBeNull();
+      expect(tokenInfo?.symbol).toBe(`FLP.${index + 1}`);
+      expect(tokenInfo?.chainId).toBe(101);
+    }
+  });
 });
