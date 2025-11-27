@@ -159,4 +159,13 @@ describe('SolanaFetcher', () => {
       expect(tokenInfo?.chainId).toBe(101);
     }
   });
+
+  it('should support BTC+', async () => {
+    const address = 'soLvpPEDkN8D1Wgjezrb1oj4WjGtj17vynGm6t3jah6';
+    const tokenInfo = await fetcher.fetch(address);
+    expect(tokenInfo).not.toBeNull();
+    expect(tokenInfo?.logoURI).not.toBeUndefined();
+    expect(tokenInfo?.symbol).toBe('BTC+');
+    expect(tokenInfo?.chainId).toBe(101);
+  });
 });
