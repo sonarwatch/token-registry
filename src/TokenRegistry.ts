@@ -193,8 +193,13 @@ export class TokenRegistry {
     const key = TokenRegistry.getKey(address, networkId);
     this.lruCache.set(key, token === null ? nullTokenValue : token);
 
-    // Ttl + or - 10%
-    const ttl = Math.round(this.redisTtl * (Math.random() * 0.2 + 0.9));
+    // ttl +/- 10% (to create a random ttl)
+    let ttl = Math.round(this.redisTtl * (Math.random() * 0.2 + 0.9));
+
+    // If token has amountMultiplier, reduce ttl (to avoid caching tokens with amountMultiplier for too long)
+    if (token?.amountMultiplier !== undefined) {
+      ttl = Math.round(ttl * 0.1);
+    }
 
     await this.redisClient.set(key, JSON.stringify(token), 'EX', ttl);
   }
