@@ -3,7 +3,7 @@ import { NetworkId } from '@sonarwatch/portfolio-core';
 import { RawToken } from '../types';
 import { DasGetAsset, fetchDasAsset } from './fetchDasAsset';
 import { isImageUrl } from './isImageUrl';
-import { solTokenPid2022 } from './misc';
+import { solTokenPid2022, tgToken2022 } from './misc';
 import { fetchScaledUiAmount } from './fetchScaledUiAmount';
 import { getMultiplierFromScaledUiAmountConfig } from './getMultiplierFromScaledUiAmountConfig';
 
@@ -71,6 +71,12 @@ export async function fetchTokenJup(
     amountMultiplier = getMultiplierFromScaledUiAmountConfig(config);
   }
 
+  // Tags
+  let { tags } = jupToken;
+  if (jupToken.tokenProgram === solTokenPid2022) {
+    tags = [...(tags || []), tgToken2022];
+  }
+
   const token: RawToken = {
     address: jupToken.id,
     chainId: 101,
@@ -79,7 +85,7 @@ export async function fetchTokenJup(
     symbol,
     logoURI,
     networkId: NetworkId.solana,
-    tags: jupToken.tags,
+    tags,
     amountMultiplier,
   };
   return token;
