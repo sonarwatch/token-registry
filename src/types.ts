@@ -3,6 +3,7 @@ import { NetworkIdType, UniTokenInfo } from '@sonarwatch/portfolio-core';
 export type Token = UniTokenInfo & {
   networkId: NetworkIdType;
   sourceId: string;
+  amountMultiplier?: number;
 };
 
 export type RawToken = Omit<Token, 'sourceId'>;

@@ -1,8 +1,18 @@
 import axios, { AxiosResponse } from 'axios';
 
+export type ScaledUiAmountConfig = {
+  authority?: string;
+  multiplier?: number;
+  new_multiplier?: number;
+  new_multiplier_effective_timestamp?: number;
+};
+
 export type DasGetAsset = {
   error?: unknown;
   result?: {
+    mint_extensions: {
+      scaled_ui_amount_config?: ScaledUiAmountConfig;
+    };
     token_info?: {
       decimals?: number;
       symbol?: string;

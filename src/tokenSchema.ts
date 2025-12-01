@@ -127,6 +127,12 @@ const tokenSchema = {
       minimum: 1,
       examples: [1, 42],
     },
+    amountMultiplier: {
+      type: 'number',
+      description: 'The multiplier for the token amount',
+      minimum: 0,
+      examples: [1, 42],
+    },
     sourceId: {
       type: 'string',
       description: 'The source ID of the token',

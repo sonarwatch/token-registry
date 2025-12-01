@@ -168,4 +168,14 @@ describe('SolanaFetcher', () => {
     expect(tokenInfo?.symbol).toBe('BTC+');
     expect(tokenInfo?.chainId).toBe(101);
   });
+
+  it('should support NFLXx', async () => {
+    const address = 'XsEH7wWfJJu2ZT3UCFeVfALnVA6CP5ur7Ee11KmzVpL';
+    const tokenInfo = await fetcher.fetch(address);
+    expect(tokenInfo).not.toBeNull();
+    expect(tokenInfo?.logoURI).not.toBeUndefined();
+    expect(tokenInfo?.symbol).toBe('NFLXx');
+    expect(tokenInfo?.chainId).toBe(101);
+    expect(tokenInfo?.amountMultiplier).toBe(10);
+  });
 });

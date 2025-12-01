@@ -2,6 +2,7 @@ import { NetworkId } from '@sonarwatch/portfolio-core';
 import { RawToken } from '../types';
 import { fetchDasAsset } from './fetchDasAsset';
 import { isImageUrl } from './isImageUrl';
+import { getMultiplierFromScaledUiAmountConfig } from './getMultiplierFromScaledUiAmountConfig';
 
 /**
  * Fetches token information from a DAS (Digital Asset Standard) API
@@ -34,6 +35,10 @@ export async function fetchTokenDas(
     if (isJsonUriAnImg) logoURI = dasAsset.result.content.json_uri;
   }
 
+  const amountMultiplier = getMultiplierFromScaledUiAmountConfig(
+    dasAsset.result.mint_extensions?.scaled_ui_amount_config
+  );
+
   const token: RawToken = {
     address,
     chainId: 101,
@@ -42,6 +47,7 @@ export async function fetchTokenDas(
     symbol,
     logoURI,
     networkId: NetworkId.solana,
+    amountMultiplier,
   };
 
   return token;
