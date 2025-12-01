@@ -19,7 +19,7 @@ describe('Token Schema Validation', () => {
       networkId: 'solana',
       sourceId: 'job-jupiter',
       tags: ['community', 'strict', 'verified'],
-      multiplier: 1,
+      amountMultiplier: 1,
     };
     const valid = ajvToken(token);
     expect(valid).toBe(true);
