@@ -28,6 +28,7 @@ describe('fetchTokenJup', () => {
     expect(token?.symbol).toBe('NFLXx');
     expect(token?.chainId).toBe(101);
     expect(token?.decimals).toBe(8);
+    expect(token?.tags).toContain('token-2022');
     expect(token?.amountMultiplier).toBe(10);
   });
 });

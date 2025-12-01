@@ -15,5 +15,5 @@ export async function fetchScaledUiAmount(
   if (dasAsset.error) throw new Error('Error fetching DAS asset');
   if (!dasAsset.result) return undefined;
 
-  return dasAsset.result.mint_extensions.scaled_ui_amount_config;
+  return dasAsset.result.mint_extensions?.scaled_ui_amount_config;
 }

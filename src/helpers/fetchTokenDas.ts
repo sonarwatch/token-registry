@@ -3,6 +3,7 @@ import { RawToken } from '../types';
 import { fetchDasAsset } from './fetchDasAsset';
 import { isImageUrl } from './isImageUrl';
 import { getMultiplierFromScaledUiAmountConfig } from './getMultiplierFromScaledUiAmountConfig';
+import { solTokenPid2022, tagToken2022 } from './misc';
 
 /**
  * Fetches token information from a DAS (Digital Asset Standard) API
@@ -39,6 +40,12 @@ export async function fetchTokenDas(
     dasAsset.result.mint_extensions?.scaled_ui_amount_config
   );
 
+  // Tags
+  let tags: string[] | undefined;
+  if (dasAsset.result.token_info.token_program === solTokenPid2022) {
+    tags = [tagToken2022];
+  }
+
   const token: RawToken = {
     address,
     chainId: 101,
@@ -47,6 +54,7 @@ export async function fetchTokenDas(
     symbol,
     logoURI,
     networkId: NetworkId.solana,
+    tags,
     amountMultiplier,
   };
 

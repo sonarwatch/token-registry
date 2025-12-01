@@ -10,12 +10,14 @@ export type ScaledUiAmountConfig = {
 export type DasGetAsset = {
   error?: unknown;
   result?: {
-    mint_extensions: {
+    interface?: string;
+    mint_extensions?: {
       scaled_ui_amount_config?: ScaledUiAmountConfig;
     };
     token_info?: {
       decimals?: number;
       symbol?: string;
+      token_program?: string;
     };
     content: {
       links?: {
