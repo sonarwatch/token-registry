@@ -92,4 +92,51 @@ describe('defaultTransformToken', () => {
     const transformed = await defaultTransformToken(token);
     expect(transformed.symbol).toBe('索拉拉');
   });
+
+  it('should remove duplicates in tags', async () => {
+    const token: Token = {
+      address: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
+      chainId: 101,
+      decimals: 8,
+      name: 'Test Token',
+      symbol: 'TEST',
+      networkId: NetworkId.solana,
+      sourceId: 'test',
+      tags: ['test', 'test2', 'test'],
+    };
+
+    const transformed = await defaultTransformToken(token);
+    expect(transformed.tags).toEqual(['test', 'test2']);
+  });
+
+  it('should leave tags undefined if not set', async () => {
+    const token: Token = {
+      address: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
+      chainId: 101,
+      decimals: 8,
+      name: 'Test Token',
+      symbol: 'TEST',
+      networkId: NetworkId.solana,
+      sourceId: 'test',
+    };
+
+    const transformed = await defaultTransformToken(token);
+    expect(transformed.tags).toEqual(undefined);
+  });
+
+  it('should set tags to undefined if empty array', async () => {
+    const token: Token = {
+      address: 'Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB',
+      chainId: 101,
+      decimals: 8,
+      name: 'Test Token',
+      symbol: 'TEST',
+      networkId: NetworkId.solana,
+      sourceId: 'test',
+      tags: [],
+    };
+
+    const transformed = await defaultTransformToken(token);
+    expect(transformed.tags).toEqual(undefined);
+  });
 });

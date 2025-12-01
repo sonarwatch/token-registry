@@ -22,6 +22,13 @@ export async function defaultTransformToken(token: Token): Promise<Token> {
   let { symbol } = token;
   if (symbol === '') symbol = name;
 
+  // Remove duplicates in tags
+  let tags = token.tags?.filter(
+    (tag, index) => token.tags?.indexOf(tag) === index
+  );
+  // Set tags to undefined if empty array
+  if (tags?.length === 0) tags = undefined;
+
   symbol = symbol
     .replace(/[^\x20-\x7F\u00B2\u00B3\u00B9\u4E00-\u9FFF]/g, '')
     .trim()
@@ -36,6 +43,7 @@ export async function defaultTransformToken(token: Token): Promise<Token> {
     name,
     address: uniformTokenAddress(token.address, token.networkId),
     logoURI: isUri(token.logoURI) ? token.logoURI : undefined,
+    tags,
   };
 
   return nToken;
