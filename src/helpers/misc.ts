@@ -2,7 +2,7 @@ import { NetworkIdType } from '@sonarwatch/portfolio-core';
 
 export const solTokenPid = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
 export const solTokenPid2022 = 'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb';
-export const tgToken2022 = 'token-2022';
+export const tagToken2022 = 'token-2022';
 
 export async function sleep(ms = 100) {
   return new Promise((r) => {
