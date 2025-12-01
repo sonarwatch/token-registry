@@ -3,12 +3,11 @@
 ## Publish new version
 
 ```shell
-npm run test:integration
 npm version patch
 git push origin main --tags
 
 # or
-npm run test:integration && npm version patch && git push origin main --tags
+npm version patch && git push origin main --tags
 ```
 
 ## Integration tests
