@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Publish to GitHub Packages
 
 on:
   # Trigger when a new release is published or when a tag is pushed
@@ -39,8 +39,8 @@ jobs:
       - name: Build the package
         run: npm run build
 
-      # Step 7: Publish to npm
-      - name: Publish to npm
+      # Step 7: Publish to GitHub Packages
+      - name: Publish to GitHub Packages
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
