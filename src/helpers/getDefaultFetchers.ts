@@ -9,6 +9,8 @@ export type GetDefaultFetchersConfig = {
   solana: {
     dasUrl: string;
     datapiHeader: string;
+    shieldUrl?: string;
+    shieldExtraParam?: string;
   };
   ethereum: {
     rpc: string;
@@ -34,7 +36,7 @@ export function getDefaultFetchers(
   config: GetDefaultFetchersConfig
 ): Partial<Record<NetworkIdType, Fetcher>> {
   return {
-    solana: new SolanaFetcher(config.solana.dasUrl, config.solana.datapiHeader),
+    solana: new SolanaFetcher(config.solana.dasUrl, config.solana.datapiHeader, config.solana.shieldUrl, config.solana.shieldExtraParam),
     ethereum: new EvmFetcher(config.ethereum.rpc, NetworkId.ethereum),
     polygon: new EvmFetcher(config.polygon.rpc, NetworkId.polygon),
     avalanche: new EvmFetcher(config.avalanche.rpc, NetworkId.avalanche),

@@ -27,11 +27,14 @@ describe('SolanaFetcher', () => {
         decimals: 6,
         tokenProgram: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
         tags: ['birdeye-trending', 'community', 'strict', 'verified'],
+        warnings: [],
       },
     ];
 
-    // Mocking axios.get to return a resolved promise with mock data
-    mockedAxios.get.mockResolvedValue({ data: mockJupiterResponse });
+    // Mocking axios.get to return Jupiter response then Shield response
+    mockedAxios.get
+      .mockResolvedValueOnce({ data: mockJupiterResponse })
+      .mockResolvedValueOnce({ data: { warnings: {} } });
 
     // Call the fetch method
     const result = await fetcher.fetch(address);
@@ -57,6 +60,7 @@ describe('SolanaFetcher', () => {
       networkId: NetworkId.solana,
       sourceId: fetcher.getSourceId(),
       tags: ['birdeye-trending', 'community', 'strict', 'verified'],
+      warnings: [],
     };
     expect(result).toEqual(pythToken);
   });

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { NetworkId } from '@sonarwatch/portfolio-core';
+import { NetworkId, ShieldWarning } from '@sonarwatch/portfolio-core';
 import { RawToken } from '../types';
 import { DasGetAsset, fetchDasAsset } from './fetchDasAsset';
 import { isImageUrl } from './isImageUrl';
@@ -18,13 +18,14 @@ type JupToken = {
 };
 
 export const datapiUrl = 'https://datapi.jup.ag';
-
 export async function fetchTokenJup(
   mint: string,
   dasUrl: string,
   datapiHeaders?: {
     [key: string]: string;
-  }
+  },
+  shieldUrl = 'https://api.jup.ag/ultra/v1/shield',
+  shieldExtraParam?: string
 ): Promise<RawToken | null> {
   const res: AxiosResponse<JupToken[]> | null = await axios
     .get(`${datapiUrl}/v1/assets/search`, {
@@ -77,6 +78,27 @@ export async function fetchTokenJup(
     tags = [...(tags || []), tagToken2022];
   }
 
+  // Warnings
+  const shieldRes: AxiosResponse<{ warnings: Record<string, ShieldWarning[]> }> | null = await axios
+    .get(shieldUrl, {
+      params: {
+        mints: mint,
+        ...(shieldExtraParam
+          ? Object.fromEntries(
+              shieldExtraParam.split(',').map((pair) => {
+                const idx = pair.indexOf('=');
+                return [pair.slice(0, idx), pair.slice(idx + 1)];
+              })
+            )
+          : {}),
+      },
+      timeout: 10000,
+    })
+    .catch(() => null);
+  const warnings: ShieldWarning[] | undefined = shieldRes
+    ? (shieldRes.data?.warnings?.[mint] ?? [])
+    : undefined;
+
   const token: RawToken = {
     address: jupToken.id,
     chainId: 101,
@@ -87,6 +109,7 @@ export async function fetchTokenJup(
     networkId: NetworkId.solana,
     tags,
     amountMultiplier,
+    warnings,
   };
   return token;
 }
