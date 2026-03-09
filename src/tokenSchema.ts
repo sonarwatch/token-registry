@@ -89,6 +89,32 @@ const tokenSchema = {
       pattern: '^[\\w-]+$',
       examples: ['compound', 'stablecoin'],
     },
+    ShieldWarning: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        type: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 64,
+        },
+        message: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 256,
+        },
+        severity: {
+          type: 'string',
+          enum: ['info', 'warning', 'critical'],
+        },
+        source: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 64,
+        },
+      },
+      required: ['type', 'message', 'severity'],
+    },
     ExtensionMap: {
       type: 'object',
       description:
@@ -208,6 +234,14 @@ const tokenSchema = {
       },
       maxItems: 20,
       examples: ['stablecoin', 'compound'],
+    },
+    warnings: {
+      type: 'array',
+      description: 'An array of shield warnings associated with the token',
+      items: {
+        $ref: '#/definitions/ShieldWarning',
+      },
+      maxItems: 20,
     },
     extensions: {
       $ref: '#/definitions/ExtensionMap',
